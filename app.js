@@ -1,17 +1,16 @@
-const express = require('express');
-const cors = require('cors'); // Importe o pacote cors
-const app = express();
-const port = 3000;
+const WebSocket = require('ws');
 
-// Configurar o CORS para permitir qualquer IP de origem
-app.use(cors());
+// Crie um servidor WebSocket na porta 8080
+const wss = new WebSocket.Server({ port: 3000 });
 
-// Rota de teste
-app.get('/', (req, res) => {
-  res.json({ message: `Essa é uma rota de teste da API: ${port} !` });
+// Evento que é disparado quando uma conexão é estabelecida com o servidor WebSocket
+wss.on('connection', (ws) => {
+  console.log('Nova conexão estabelecida.');
+
+  // Evento que é disparado quando a conexão é fechada
+  ws.on('close', () => {
+    console.log('Conexão fechada.');
+  });
 });
 
-// Inicia o servidor
-app.listen(port, () => {
-  console.log(`Servidor rodando em http://localhost:${port}`);
-});
+console.log('Servidor WebSocket iniciado.');
